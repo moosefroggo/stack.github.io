@@ -404,9 +404,6 @@
       <div class="node" id="threejs" style="left:375px; top:60px;">
         <div class="node-label">Three.js</div>
       </div>
-      <div class="node" id="r3f" style="left:680px; top:60px;">
-        <div class="node-label">React Three Fiber</div>
-      </div>
     </div>
   </section>
 
@@ -523,7 +520,6 @@
       blender: { x: 70 + 55, y: 210 + 55 },
       figma_2: { x: 70 + 55, y: 360 + 55 },
       threejs: { x: 375 + 55, y: 60 + 55 },
-      r3f: { x: 680 + 55, y: 60 + 55 },
     };
 
     const stack2Connections = [
@@ -532,7 +528,6 @@
       { from: 'meshy', to: 'blender', color: '#8B5CF6', label: 'AI deco' },
       { from: 'claude_ext', to: 'react_vite', color: '#D97757', label: 'dev tool' },
       { from: 'react_vite', to: 'threejs', color: '#61DAFB', label: 'rendering' },
-      { from: 'threejs', to: 'r3f', color: '#fff', label: 'bridge' },
     ];
 
     // Initialize
