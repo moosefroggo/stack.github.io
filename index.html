@@ -369,33 +369,60 @@
   </section>
 
   <section class="stack-section">
-    <h2 class="stack-title">Other Tech Stack</h2>
+    <h2 class="stack-title">3D Graphics & React Pipeline</h2>
     <div class="canvas" id="canvas2">
       <svg class="connections" id="svgLayer2"></svg>
-      <!-- Placeholder nodes for the second stack -->
-      <div class="node" id="nodeA" style="left:100px; top:100px;">
+      
+      <!-- Center: React + Vite -->
+      <div class="node" id="react_vite" style="left:375px; top:210px;">
         <div class="node-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="4" fill="#444" />
+          <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="width:32px; height:32px;">
+            <path d="M12 2L2 19.72L12 22L22 19.72L12 2Z" fill="#646CFF"/>
+            <circle cx="12" cy="12" r="5" fill="#61DAFB"/>
           </svg>
         </div>
-        <div class="node-label">Frontend</div>
+        <div class="node-label">React 19 + Vite 7</div>
       </div>
-      <div class="node" id="nodeB" style="left:600px; top:100px;">
-        <div class="node-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="4" fill="#444" />
-          </svg>
-        </div>
-        <div class="node-label">Backend</div>
+
+      <!-- Development -->
+      <div class="node" id="claude_ext" style="left:220px; top:60px;">
+        <div class="node-label">Claude Code Extension</div>
       </div>
-      <div class="node" id="nodeC" style="left:350px; top:350px;">
-        <div class="node-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="24" height="24" rx="4" fill="#444" />
-          </svg>
-        </div>
-        <div class="node-label">Database</div>
+
+      <!-- Design & Assets -->
+      <div class="node" id="blender" style="left:70px; top:60px;">
+        <div class="node-label">Blender (3D Assets)</div>
+      </div>
+      <div class="node" id="figma_2" style="left:70px; top:210px;">
+        <div class="node-label">Figma (UI/Vector)</div>
+      </div>
+      <div class="node" id="meshy" style="left:70px; top:360px;">
+        <div class="node-label">Meshy.ai (Deco)</div>
+      </div>
+
+      <!-- 3D Stack -->
+      <div class="node" id="threejs" style="left:375px; top:60px;">
+        <div class="node-label">Three.js</div>
+      </div>
+      <div class="node" id="r3f" style="left:680px; top:60px;">
+        <div class="node-label">React Three Fiber</div>
+      </div>
+      <div class="node" id="drei" style="left:680px; top:210px;">
+        <div class="node-label">React Three Drei</div>
+      </div>
+      <div class="node" id="postprocessing" style="left:680px; top:360px;">
+        <div class="node-label">Post-processing</div>
+      </div>
+      <div class="node" id="rapier" style="left:375px; top:360px;">
+        <div class="node-label">Physics (Rapier)</div>
+      </div>
+
+      <!-- Dev & Build -->
+      <div class="node" id="leva" style="left:220px; top:360px;">
+        <div class="node-label">Leva (Tweaks)</div>
+      </div>
+      <div class="node" id="compression" style="left:530px; top:360px;">
+        <div class="node-label">Vite Compression</div>
       </div>
     </div>
   </section>
@@ -505,17 +532,34 @@
       { from: 'portkey', to: 'claude', color: '#3B82F6', label: 'API gateway' },
     ];
 
-    // Stack 2 Data (Placeholder)
+    // Stack 2 Data (3D Pipeline)
     const stack2Nodes = {
-      nodeA: { x: 100 + 55, y: 100 + 55 },
-      nodeB: { x: 600 + 55, y: 100 + 55 },
-      nodeC: { x: 350 + 55, y: 350 + 55 },
+      react_vite: { x: 375 + 55, y: 210 + 55 },
+      claude_ext: { x: 220 + 55, y: 60 + 55 },
+      blender: { x: 70 + 55, y: 60 + 55 },
+      figma_2: { x: 70 + 55, y: 210 + 55 },
+      meshy: { x: 70 + 55, y: 360 + 55 },
+      threejs: { x: 375 + 55, y: 60 + 55 },
+      r3f: { x: 680 + 55, y: 60 + 55 },
+      drei: { x: 680 + 55, y: 210 + 55 },
+      postprocessing: { x: 680 + 55, y: 360 + 55 },
+      rapier: { x: 375 + 55, y: 360 + 55 },
+      leva: { x: 220 + 55, y: 360 + 55 },
+      compression: { x: 530 + 55, y: 360 + 55 },
     };
 
     const stack2Connections = [
-      { from: 'nodeA', to: 'nodeB', color: '#10B981', label: 'API Request' },
-      { from: 'nodeB', to: 'nodeC', color: '#3B82F6', label: 'Query' },
-      { from: 'nodeC', to: 'nodeA', color: '#F59E0B', label: 'Data Sync' },
+      { from: 'blender', to: 'react_vite', color: '#F5792A', label: '3D models' },
+      { from: 'figma_2', to: 'react_vite', color: '#F24E1E', label: 'UI assets' },
+      { from: 'meshy', to: 'blender', color: '#8B5CF6', label: 'AI deco' },
+      { from: 'claude_ext', to: 'react_vite', color: '#D97757', label: 'dev tool' },
+      { from: 'react_vite', to: 'threejs', color: '#61DAFB', label: 'rendering' },
+      { from: 'threejs', to: 'r3f', color: '#fff', label: 'bridge' },
+      { from: 'r3f', to: 'drei', color: '#fff', label: 'helpers' },
+      { from: 'r3f', to: 'postprocessing', color: '#fff', label: 'effects' },
+      { from: 'r3f', to: 'rapier', color: '#E30613', label: 'physics' },
+      { from: 'react_vite', to: 'leva', color: '#646CFF', label: 'tweaks' },
+      { from: 'react_vite', to: 'compression', color: '#646CFF', label: 'optimize' },
     ];
 
     // Initialize
