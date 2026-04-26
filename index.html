@@ -562,6 +562,7 @@
       react_vite: { x: 375 + 55, y: 215 + 55 },
       claude_ext: { x: 280 + 55, y: 40 + 55 },
       antigravity: { x: 470 + 55, y: 40 + 55 },
+      merge_dev: { x: 375 + 55, y: 140 + 55 }, // Merged point above React
       meshy: { x: 70 + 55, y: 40 + 55 },
       blender: { x: 70 + 55, y: 215 + 55 },
       figma_2: { x: 70 + 55, y: 390 + 55 },
@@ -573,8 +574,11 @@
       { from: 'blender', to: 'react_vite', color: '#F5792A', label: '3D models' },
       { from: 'figma_2', to: 'react_vite', color: '#F24E1E', label: 'UI assets' },
       { from: 'meshy', to: 'blender', color: '#8B5CF6', label: 'AI deco' },
-      { from: 'claude_ext', to: 'react_vite', color: '#D97757', label: 'dev tool' },
-      { from: 'antigravity', to: 'react_vite', color: '#4285F4', label: 'gravity engine' },
+      // Dev tools merge
+      { from: 'claude_ext', to: 'merge_dev', color: '#D97757', label: '' },
+      { from: 'antigravity', to: 'merge_dev', color: '#4285F4', label: '' },
+      { from: 'merge_dev', to: 'react_vite', color: '#888', label: 'dev stack' },
+      
       { from: 'react_vite', to: 'threejs', color: '#61DAFB', label: 'rendering' },
       { from: 'react_vite', to: 'vercel', color: '#fff', label: 'deploy' },
     ];
