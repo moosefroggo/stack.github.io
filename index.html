@@ -433,7 +433,7 @@
       dot1.setAttribute('fill', conn.color);
       dot1.setAttribute('filter', `drop-shadow(0 0 4px ${conn.color})`);
       dot1.setAttribute('opacity', '0');
-      const dur = 12.0;
+      const dur = 20.0;
       dot1.innerHTML = `
         <set attributeName="opacity" to="1" begin="0s" fill="freeze" />
         <animateMotion dur="${dur}s" begin="0s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.6 1"><mpath href="#path${i}"/></animateMotion>
