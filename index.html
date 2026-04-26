@@ -407,22 +407,10 @@
       <div class="node" id="r3f" style="left:680px; top:60px;">
         <div class="node-label">React Three Fiber</div>
       </div>
-      <div class="node" id="drei" style="left:680px; top:210px;">
-        <div class="node-label">React Three Drei</div>
-      </div>
-      <div class="node" id="postprocessing" style="left:680px; top:360px;">
-        <div class="node-label">Post-processing</div>
-      </div>
-      <div class="node" id="rapier" style="left:375px; top:360px;">
-        <div class="node-label">Physics (Rapier)</div>
-      </div>
 
       <!-- Dev & Build -->
       <div class="node" id="leva" style="left:220px; top:360px;">
         <div class="node-label">Leva (Tweaks)</div>
-      </div>
-      <div class="node" id="compression" style="left:530px; top:360px;">
-        <div class="node-label">Vite Compression</div>
       </div>
     </div>
   </section>
@@ -541,11 +529,7 @@
       meshy: { x: 70 + 55, y: 360 + 55 },
       threejs: { x: 375 + 55, y: 60 + 55 },
       r3f: { x: 680 + 55, y: 60 + 55 },
-      drei: { x: 680 + 55, y: 210 + 55 },
-      postprocessing: { x: 680 + 55, y: 360 + 55 },
-      rapier: { x: 375 + 55, y: 360 + 55 },
       leva: { x: 220 + 55, y: 360 + 55 },
-      compression: { x: 530 + 55, y: 360 + 55 },
     };
 
     const stack2Connections = [
@@ -555,11 +539,7 @@
       { from: 'claude_ext', to: 'react_vite', color: '#D97757', label: 'dev tool' },
       { from: 'react_vite', to: 'threejs', color: '#61DAFB', label: 'rendering' },
       { from: 'threejs', to: 'r3f', color: '#fff', label: 'bridge' },
-      { from: 'r3f', to: 'drei', color: '#fff', label: 'helpers' },
-      { from: 'r3f', to: 'postprocessing', color: '#fff', label: 'effects' },
-      { from: 'r3f', to: 'rapier', color: '#E30613', label: 'physics' },
       { from: 'react_vite', to: 'leva', color: '#646CFF', label: 'tweaks' },
-      { from: 'react_vite', to: 'compression', color: '#646CFF', label: 'optimize' },
     ];
 
     // Initialize
