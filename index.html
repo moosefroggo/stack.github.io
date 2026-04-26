@@ -14,10 +14,38 @@
       background: #0f0f0f;
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
       align-items: center;
+      justify-content: flex-start;
       min-height: 100vh;
-      padding: 20px;
+      padding: 80px 20px;
+      gap: 120px;
+      color: #fff;
+    }
+
+    h1 {
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: -40px;
+      background: linear-gradient(to right, #fff, #888);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -1px;
+    }
+
+    .stack-section {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 30px;
+    }
+
+    .stack-title {
+      font-size: 24px;
+      font-weight: 600;
+      color: #888;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
     }
 
     .canvas {
@@ -81,7 +109,11 @@
 </head>
 
 <body>
-  <div class="canvas" id="canvas">
+  <h1>System Architectures</h1>
+
+  <section class="stack-section">
+    <h2 class="stack-title">Production Web Stack</h2>
+    <div class="canvas" id="canvas">
     <!-- SVG connections layer -->
     <svg class="connections" id="svgLayer"></svg>
 
@@ -334,10 +366,124 @@
       </div>
       <div class="node-label">API Gateway</div>
     </div>
-  </div>
+  </section>
+
+  <section class="stack-section">
+    <h2 class="stack-title">Other Tech Stack</h2>
+    <div class="canvas" id="canvas2">
+      <svg class="connections" id="svgLayer2"></svg>
+      <!-- Placeholder nodes for the second stack -->
+      <div class="node" id="nodeA" style="left:100px; top:100px;">
+        <div class="node-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="4" fill="#444" />
+          </svg>
+        </div>
+        <div class="node-label">Frontend</div>
+      </div>
+      <div class="node" id="nodeB" style="left:600px; top:100px;">
+        <div class="node-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="4" fill="#444" />
+          </svg>
+        </div>
+        <div class="node-label">Backend</div>
+      </div>
+      <div class="node" id="nodeC" style="left:350px; top:350px;">
+        <div class="node-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="24" height="24" rx="4" fill="#444" />
+          </svg>
+        </div>
+        <div class="node-label">Database</div>
+      </div>
+    </div>
+  </section>
 
   <script>
-    const nodes = {
+    function renderStack(svgId, nodes, connections, stackIndex) {
+      const svg = document.getElementById(svgId);
+      svg.innerHTML = '';
+
+      // Defs
+      const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
+      let defsHTML = '';
+
+      connections.forEach((conn, i) => {
+        const f = nodes[conn.from];
+        const t = nodes[conn.to];
+        if (!f || !t) return;
+
+        // Control point for curve
+        const mx = (f.x + t.x) / 2;
+        const my = (f.y + t.y) / 2;
+        const dx = t.x - f.x;
+        const dy = t.y - f.y;
+        const len = Math.sqrt(dx * dx + dy * dy);
+        const cx = mx + (dy / len) * 30;
+        const cy = my - (dx / len) * 30;
+
+        const pathData = `M${f.x},${f.y} Q${cx},${cy} ${t.x},${t.y}`;
+        const pathId = `path_${stackIndex}_${i}`;
+
+        defsHTML += `<path id="${pathId}" d="${pathData}" fill="none"/>`;
+      });
+
+      defs.innerHTML = defsHTML;
+      svg.appendChild(defs);
+
+      // Draw paths and dots
+      connections.forEach((conn, i) => {
+        const f = nodes[conn.from];
+        const t = nodes[conn.to];
+        if (!f || !t) return;
+
+        const mx = (f.x + t.x) / 2;
+        const my = (f.y + t.y) / 2;
+        const dx = t.x - f.x;
+        const dy = t.y - f.y;
+        const len = Math.sqrt(dx * dx + dy * dy);
+        const cx = mx + (dy / len) * 30;
+        const cy = my - (dx / len) * 30;
+        const pathData = `M${f.x},${f.y} Q${cx},${cy} ${t.x},${t.y}`;
+
+        // Static path line
+        const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+        path.setAttribute('d', pathData);
+        path.setAttribute('fill', 'none');
+        path.setAttribute('stroke', conn.color);
+        path.setAttribute('stroke-width', '1.5');
+        path.setAttribute('stroke-opacity', '0.3');
+        svg.appendChild(path);
+
+        // Label near midpoint
+        const labelX = cx;
+        const labelY = cy - 6;
+        const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        label.setAttribute('x', labelX);
+        label.setAttribute('y', labelY);
+        label.setAttribute('fill', conn.color);
+        label.setAttribute('font-size', '9');
+        label.setAttribute('font-family', '-apple-system, BlinkMacSystemFont, sans-serif');
+        label.setAttribute('font-weight', '500');
+        label.setAttribute('text-anchor', 'middle');
+        label.setAttribute('opacity', '0.7');
+        label.textContent = conn.label;
+        svg.appendChild(label);
+
+        // Dot
+        const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+        dot.setAttribute('r', '4');
+        dot.setAttribute('fill', conn.color);
+        dot.setAttribute('filter', `drop-shadow(0 0 4px ${conn.color})`);
+        const dur = 10.0;
+        dot.innerHTML = `<animateMotion dur="${dur}s" begin="0s" repeatCount="indefinite" calcMode="linear"><mpath href="#path_${stackIndex}_${i}"/></animateMotion>`;
+        svg.appendChild(dot);
+      });
+    }
+
+    // Stack 1 Data
+    const stack1Nodes = {
       claude: { x: 375 + 55, y: 210 + 55 },
       github: { x: 375 + 55, y: 60 + 55 },
       teams: { x: 680 + 55, y: 60 + 55 },
@@ -347,95 +493,34 @@
       portkey: { x: 70 + 55, y: 370 + 55 },
     };
 
-    // Connections: [from, to, color, label, delay]
-    const connections = [
-      { from: 'claude', to: 'github', color: '#888', label: 'trigger CI', delay: 0 },
-      { from: 'github', to: 'aws', color: '#F59E0B', label: 'deploy', delay: 0.4 },
-      { from: 'github', to: 'teams', color: '#6366F1', label: 'build alert', delay: 0.8 },
-      { from: 'aws', to: 'userback', color: '#8B5CF6', label: 'user feedback', delay: 0.2 },
-      { from: 'userback', to: 'teams', color: '#8B5CF6', label: 'to channel', delay: 0.6 },
-      { from: 'userback', to: 'claude', color: '#8B5CF6', label: 'MCP direct', delay: 1.0 },
-      { from: 'figma', to: 'claude', color: '#F24E1E', label: 'MCP', delay: 0 },
-      { from: 'claude', to: 'aws', color: '#D97757', label: 'implement', delay: 0.5 },
-      { from: 'portkey', to: 'claude', color: '#3B82F6', label: 'API gateway', delay: 0 },
+    const stack1Connections = [
+      { from: 'claude', to: 'github', color: '#888', label: 'trigger CI' },
+      { from: 'github', to: 'aws', color: '#F59E0B', label: 'deploy' },
+      { from: 'github', to: 'teams', color: '#6366F1', label: 'build alert' },
+      { from: 'aws', to: 'userback', color: '#8B5CF6', label: 'user feedback' },
+      { from: 'userback', to: 'teams', color: '#8B5CF6', label: 'to channel' },
+      { from: 'userback', to: 'claude', color: '#8B5CF6', label: 'MCP direct' },
+      { from: 'figma', to: 'claude', color: '#F24E1E', label: 'MCP' },
+      { from: 'claude', to: 'aws', color: '#D97757', label: 'implement' },
+      { from: 'portkey', to: 'claude', color: '#3B82F6', label: 'API gateway' },
     ];
 
-    const svg = document.getElementById('svgLayer');
-    svg.innerHTML = '';
+    // Stack 2 Data (Placeholder)
+    const stack2Nodes = {
+      nodeA: { x: 100 + 55, y: 100 + 55 },
+      nodeB: { x: 600 + 55, y: 100 + 55 },
+      nodeC: { x: 350 + 55, y: 350 + 55 },
+    };
 
-    // Defs
-    const defs = document.createElementNS('http://www.w3.org/2000/svg', 'defs');
-    let defsHTML = '';
+    const stack2Connections = [
+      { from: 'nodeA', to: 'nodeB', color: '#10B981', label: 'API Request' },
+      { from: 'nodeB', to: 'nodeC', color: '#3B82F6', label: 'Query' },
+      { from: 'nodeC', to: 'nodeA', color: '#F59E0B', label: 'Data Sync' },
+    ];
 
-    connections.forEach((conn, i) => {
-      const f = nodes[conn.from];
-      const t = nodes[conn.to];
-
-      // Control point for curve
-      const mx = (f.x + t.x) / 2;
-      const my = (f.y + t.y) / 2;
-      const dx = t.x - f.x;
-      const dy = t.y - f.y;
-      const len = Math.sqrt(dx * dx + dy * dy);
-      const cx = mx + (dy / len) * 30;
-      const cy = my - (dx / len) * 30;
-
-      const pathData = `M${f.x},${f.y} Q${cx},${cy} ${t.x},${t.y}`;
-      const pathId = `path${i}`;
-
-      defsHTML += `<path id="${pathId}" d="${pathData}" fill="none"/>`;
-    });
-
-    defs.innerHTML = defsHTML;
-    svg.appendChild(defs);
-
-    // Draw paths and dots
-    connections.forEach((conn, i) => {
-      const f = nodes[conn.from];
-      const t = nodes[conn.to];
-
-      const mx = (f.x + t.x) / 2;
-      const my = (f.y + t.y) / 2;
-      const dx = t.x - f.x;
-      const dy = t.y - f.y;
-      const len = Math.sqrt(dx * dx + dy * dy);
-      const cx = mx + (dy / len) * 30;
-      const cy = my - (dx / len) * 30;
-      const pathData = `M${f.x},${f.y} Q${cx},${cy} ${t.x},${t.y}`;
-
-      // Static path line
-      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
-      path.setAttribute('d', pathData);
-      path.setAttribute('fill', 'none');
-      path.setAttribute('stroke', conn.color);
-      path.setAttribute('stroke-width', '1.5');
-      path.setAttribute('stroke-opacity', '0.3');
-      svg.appendChild(path);
-
-      // Label near midpoint
-      const labelX = cx;
-      const labelY = cy - 6;
-      const label = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-      label.setAttribute('x', labelX);
-      label.setAttribute('y', labelY);
-      label.setAttribute('fill', conn.color);
-      label.setAttribute('font-size', '9');
-      label.setAttribute('font-family', '-apple-system, BlinkMacSystemFont, sans-serif');
-      label.setAttribute('font-weight', '500');
-      label.setAttribute('text-anchor', 'middle');
-      label.setAttribute('opacity', '0.7');
-      label.textContent = conn.label;
-      svg.appendChild(label);
-
-      // Dot
-      const dot = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-      dot.setAttribute('r', '4');
-      dot.setAttribute('fill', conn.color);
-      dot.setAttribute('filter', `drop-shadow(0 0 4px ${conn.color})`);
-      const dur = 10.0;
-      dot.innerHTML = `<animateMotion dur="${dur}s" begin="0s" repeatCount="indefinite" calcMode="linear"><mpath href="#path${i}"/></animateMotion>`;
-      svg.appendChild(dot);
-    });
+    // Initialize
+    renderStack('svgLayer', stack1Nodes, stack1Connections, 1);
+    renderStack('svgLayer2', stack2Nodes, stack2Connections, 2);
   </script>
 </body>
 
