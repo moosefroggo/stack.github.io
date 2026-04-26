@@ -441,6 +441,14 @@
         </div>
         <div class="node-label">Three.js</div>
       </div>
+
+      <!-- Deployment -->
+      <div class="node" id="vercel" style="left:680px; top:390px;">
+        <div class="node-icon">
+          <img src="logos/vercel.svg" alt="Vercel" style="width:32px; height:32px; filter:invert(1);">
+        </div>
+        <div class="node-label">Vercel Deployment</div>
+      </div>
     </div>
   </section>
 
@@ -558,6 +566,7 @@
       blender: { x: 70 + 55, y: 215 + 55 },
       figma_2: { x: 70 + 55, y: 390 + 55 },
       threejs: { x: 680 + 55, y: 215 + 55 },
+      vercel: { x: 680 + 55, y: 390 + 55 },
     };
 
     const stack2Connections = [
@@ -567,6 +576,7 @@
       { from: 'claude_ext', to: 'react_vite', color: '#D97757', label: 'dev tool' },
       { from: 'antigravity', to: 'react_vite', color: '#4285F4', label: 'gravity engine' },
       { from: 'react_vite', to: 'threejs', color: '#61DAFB', label: 'rendering' },
+      { from: 'react_vite', to: 'vercel', color: '#fff', label: 'deploy' },
     ];
 
     // Initialize
