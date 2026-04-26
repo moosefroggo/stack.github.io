@@ -432,17 +432,24 @@
       dot1.setAttribute('r', '4');
       dot1.setAttribute('fill', conn.color);
       dot1.setAttribute('filter', `drop-shadow(0 0 4px ${conn.color})`);
+      dot1.setAttribute('opacity', '0');
       const dur = 10.0;
-      dot1.innerHTML = `<animateMotion dur="${dur}s" begin="${conn.delay}s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.6 1"><mpath href="#path${i}"/></animateMotion>`;
+      dot1.innerHTML = `
+        <set attributeName="opacity" to="1" begin="${conn.delay}s" fill="freeze" />
+        <animateMotion dur="${dur}s" begin="${conn.delay}s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.6 1"><mpath href="#path${i}"/></animateMotion>
+      `;
       svg.appendChild(dot1);
 
       // Dot 2 (staggered)
       const dot2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
       dot2.setAttribute('r', '3');
       dot2.setAttribute('fill', conn.color);
-      dot2.setAttribute('opacity', '0.7');
+      dot2.setAttribute('opacity', '0');
       const delay2 = conn.delay + dur / 2;
-      dot2.innerHTML = `<animateMotion dur="${dur}s" begin="${delay2}s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.6 1"><mpath href="#path${i}"/></animateMotion>`;
+      dot2.innerHTML = `
+        <set attributeName="opacity" to="0.7" begin="${delay2}s" fill="freeze" />
+        <animateMotion dur="${dur}s" begin="${delay2}s" repeatCount="indefinite" calcMode="spline" keyTimes="0;1" keySplines="0.4 0 0.6 1"><mpath href="#path${i}"/></animateMotion>
+      `;
       svg.appendChild(dot2);
     });
   </script>
